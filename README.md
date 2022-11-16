@@ -1,5 +1,5 @@
 # **Sudoku**
-## Sudoku game made in python with Pygame
+Sudoku game made in python with Pygame
 
 
 ## Current Features:
