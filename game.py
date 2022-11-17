@@ -49,9 +49,15 @@ if __name__ == "__main__":
         if wrong:
             rect_wrong = pg.Rect(wrong[1]*side, wrong[0]*side, side, side)
             board.highlight_box(canvas, c.T_RED, rect_wrong)  # Highlights the wrong number in red
+        else:
+            if selected:
+                board.highlight_outline(y, x, canvas, 666)  # Highlights the edge of the selected box
 
-        if selected and not wrong:
-            board.highlight_outline(y, x, canvas, 666)  # Highlights the edge of the selected box
+            if board.is_over():
+                final_text = font.render("VICTORY!", True, c.BLACK)
+                final_square = final_text.get_rect(center=(size//2, size//2))
+                canvas.blit(final_text, final_square)
+
 
         pg.display.update()
         clock.tick(60)
