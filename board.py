@@ -7,7 +7,9 @@ class Board():
         """
         Initializes the board as a 9x9 matrix of zeros
         """
-        self.board = [[0 for i in range(9)] for j in range(9)]
+        self.board = [[0 for i in range(9)] for j in range(9)]  # Matrix that stores the numbers of the sudoku grid
+        self.flag = [[0 for i in range(9)] for j in range(9)]   # Matrix that stores the flag that indicates wether a number
+                                                                # is constant (1) or mutable (0)
 
     def check_board(self, x: int, y: int, num: int) -> bool:
         """
@@ -67,12 +69,16 @@ class Board():
         for i in range(9):
             for j in range(9):
                 if self.board[i][j] != 0:
-                    text = font.render(str(self.board[i][j]), True, c.BLACK)
+                    if self.flag[i][j]:
+                        text = font.render(str(self.board[i][j]), True, c.BLACK)
+                    else:
+                        text = font.render(str(self.board[i][j]), True, c.BLUE)          
+
                     text_square = text.get_rect(center=(i*side + side//2, j*side + side//2))
                     canvas.blit(text, text_square)
 
     
-    def is_zero(self, x: int, y: int):
+    def is_zero(self, x: int, y: int) -> bool:
         """
         Checks if a given square is empty
         """
@@ -82,6 +88,12 @@ class Board():
 
         return False
 
+    def is_constant(self, x: int, y: int) -> bool:
+        """
+        Checks if a given number is constant or not
+        """
+
+        return bool(self.flag[y][x])
 
     def draw_grid(self, canvas: pg.Surface, color: list, size: int) -> None:
         """
