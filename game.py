@@ -48,7 +48,7 @@ while not exit:
         board.highlight_outline(y, x, canvas, 666)  # Highlights the edge of the selected box
     if wrong:
         rect_wrong = pg.Rect(wrong[1]*side, wrong[0]*side, side, side)
-        board.draw_rect_alpha(canvas, c.T_RED, rect_wrong)  # Highlights the wrong number in red
+        board.highlight_box(canvas, c.T_RED, rect_wrong)  # Highlights the wrong number in red
 
     pg.display.update()
     clock.tick(60)
