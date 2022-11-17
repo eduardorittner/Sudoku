@@ -3,7 +3,7 @@ Sudoku game made in python with Pygame
 
 ## How to Build:
 
-$ python3 -m pip install -U pygame --user
+$ python3 -m pip install -U pygame --user\n
 $ python3 game.py
 
 
