@@ -8,7 +8,7 @@ class Board():
         Initializes the board as a 9x9 matrix of zeros
         """
         self.board = [[0 for i in range(9)] for j in range(9)]  # Matrix that stores the numbers of the sudoku grid
-        self.flag = [[0 for i in range(9)] for j in range(9)]   # Matrix that stores the flag that indicates wether a number
+        self.flag = [[0 for i in range(9)] for j in range(9)]   # Matrix that stores the flag that indicates whether a number
                                                                 # is constant (1) or mutable (0)
 
     def check_board(self, x: int, y: int, num: int) -> bool:

@@ -1,9 +1,7 @@
 
 # List of TODO's as of 17/11/2022
 --- Essentials ---
-- Add if name == "__main__" logic
-- Add restriction that you may not change numbers that were set by the program
-- Add restriction that if a number is wrong you may only change it and no other square
+
 - Add method to check if the sudoku is complete (and a possible congratulations of sorts)
 - Figure out method to either generate sudokus internally or get them from an API
 
