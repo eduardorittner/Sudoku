@@ -35,13 +35,16 @@ if __name__ == "__main__":
 
             if event.type == pg.KEYDOWN:
                 # Handles the insertion of numbers in the board
-                if not board.is_constant(x, y) and 48 < event.key < 58:     # If the square is NULL and an int was typed
-                    num = event.key - 48
-                    if not board.check_board(x, y, num):
-                        wrong = (x, y)
-                    else:
-                        wrong = 0                    
-                    board.add_num(x, y, num)
+                if not board.is_constant(x, y):     # If the square is NULL
+                    if 48 < event.key < 58:
+                        num = event.key - 48
+                        if not board.check_board(x, y, num):
+                            wrong = (x, y)
+                        else:
+                            wrong = 0                    
+                        board.add_num(x, y, num)
+                    elif event.key == pg.K_BACKSPACE:
+                        board.remove_num(x, y)
 
         board.draw_grid(canvas, c.BLACK, 666)   # Draws the sudoku grid
         board.draw_board(canvas, 666)           # Renders the numbers in the sudoku

@@ -1,5 +1,6 @@
 import pygame as pg
 import constants as c
+from random import randint
 
 class Board():
 
@@ -43,6 +44,13 @@ class Board():
         """
 
         self.board[y][x] = num
+
+    def remove_num(self, x: int, y: int) -> None:
+        """
+        Erases the given square
+        """
+
+        self.board[y][x] = 0
 
     def is_over(self) -> bool:
         """
@@ -132,4 +140,22 @@ class Board():
         shape_surf = pg.Surface(pg.Rect(rect).size, pg.SRCALPHA)
         pg.draw.rect(shape_surf, color, shape_surf.get_rect())
         surface.blit(shape_surf, rect)
+
+    def generate_sudoku(self):
+        set_nums = set(i for i in range(1, 10))
+        lines, columns, squares = [], [], []
+        for i in range(9):
+            lines.append(list(set_nums))
+            columns.append(list(set_nums))
+            squares.append(list(set_nums))
+        
+        sudoku = [[0 for i in range(9)] for j in range(9)] # Matrix of the sudoku board
+
+        for i in range(9):
+            for j in range(9):
+                temp = 2*(i // 3) + j // 3
+                possible = [i for i in lines[i] and columns[j] and squares[temp]]
+                sudoku[i][j] = possible[randint(0, len(possible))]
+
+        print(sudoku)
 
