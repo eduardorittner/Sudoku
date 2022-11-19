@@ -2,8 +2,8 @@
 # List of TODO's as of 17/11/2022
 --- Essentials ---
 
-- Add method to check if the sudoku is complete (and a possible congratulations of sorts)
-- Figure out method to either generate sudokus internally or get them from an API
+- Implement a sudoku solver
+- Implemente a sudoku puzzle generator
 
 --- Not so essential ---
 - Better names for variables/objects/files

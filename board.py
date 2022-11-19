@@ -1,16 +1,35 @@
 import pygame as pg
 import constants as c
 from random import randint
+import zipfile as zp
 
 class Board():
 
     def __init__(self):
         """
-        Initializes the board as a 9x9 matrix of zeros
+        Initializes the board
+
+        Fetches a random configuration from the file "puzzles0_kaggle" from data.zip
+        Currently only one difficulty
         """
         self.board = [[0 for i in range(9)] for j in range(9)]  # Matrix that stores the numbers of the sudoku grid
-        self.flag = [[0 for i in range(9)] for j in range(9)]   # Matrix that stores the flag that indicates whether a number
-                                                                # is constant (1) or mutable (0)
+        self.flag = [[0 for i in range(9)] for j in range(9)]   # Matrix that stores the flag that indicates whether a number is constant (1) or mutable (0)
+
+        with zp.ZipFile("data.zip") as z:
+            with z.open("data/puzzles0_kaggle") as f:
+                num = randint(0, 100002)        # Chooses a specific line to read from
+                for i, line in enumerate(f):
+                    if i == num:
+                        puzzle = line       
+
+        puzzle = puzzle[0:-1]
+        
+        for i in range(9):
+            for j in range(9):
+                if puzzle[i*9 + j] != 46:       # The file is in ASCII format, so 46 is a "." and represents an empty square
+                    self.board[i][j] = puzzle[i*9 + j] - 48    # Retrieves the number from its ASCII 
+                    self.flag[i][j] = 1 
+
 
     def check_board(self, x: int, y: int, num: int) -> bool:
         """
