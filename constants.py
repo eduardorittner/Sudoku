@@ -1,6 +1,7 @@
 # Colors used in the project in RGB format
 
 BLACK = [0, 0, 0]
+GRAY = [100, 100, 100]
 WHITE = [255, 255, 255]
 RED = [255, 0, 0]
 BLUE = [0, 0, 200]

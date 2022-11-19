@@ -59,8 +59,9 @@ if __name__ == "__main__":
                 board.highlight_outline(y, x, canvas, 666)  # Highlights the edge of the selected box
 
             if board.is_over():
-                final_text = font.render("VICTORY!", True, c.BLACK)
+                final_text = font.render("ALL DONE!", True, c.BLACK)
                 final_square = final_text.get_rect(center=(size//2, size//2))
+                pg.draw.rect(canvas, c.GRAY, pg.Rect.inflate(final_square, 100, 100))
                 canvas.blit(final_text, final_square)
 
 
