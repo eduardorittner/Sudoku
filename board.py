@@ -44,7 +44,8 @@ class Board():
 
         for i in range(9):
             if self.board[y][i] == num: # Checks the column
-                return False    
+                return False 
+
             if self.board[i][x] == num: # Checks the line
                 return False
             
@@ -85,6 +86,37 @@ class Board():
                     return False
 
         return True
+
+    def find_zero(self):
+        """
+        Finds the next zero in the board and returns its position as a tuple
+        """
+
+        for i in range(9):
+            for j in range(9):
+                if self.board[i][j] == 0:
+                    return (i, j)
+                
+
+    def solve(self):
+        """
+        Solves the sudoku recursively
+        """
+
+        zero = self.find_zero()
+
+        if not zero:            # If there is no zero, the sudoku is solved
+            return True
+        
+        for i in range(1, 10):
+            if self.check_board(zero[1], zero[0], i):
+                self.board[zero[0]][zero[1]] = i
+                if self.solve():
+                    return True
+                self.board[zero[0]][zero[1]] = 0
+
+        return False
+
 
     def draw_board(self, canvas: pg.Surface, size: int) -> None:
         """
