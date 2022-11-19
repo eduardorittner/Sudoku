@@ -13,7 +13,7 @@ if __name__ == "__main__":
     canvas = pg.display.set_mode((size, size))      
     side = size//9                                  
     pg.display.set_caption("DUDU'S SUDOKU")                # Window name
-    font = pg.font.Font(None, 72)                   # Standard pygame font
+    font = pg.font.Font(None, side)                   # Standard pygame font
 
     selected, wrong = 0, 0      # Runtime flags
 
@@ -48,20 +48,20 @@ if __name__ == "__main__":
                         board.remove_num(x, y)
                         wrong = 0
 
-        board.draw_grid(canvas, c.BLACK, 666)   # Draws the sudoku grid
-        board.draw_board(canvas, 666)           # Renders the numbers in the sudoku
+        board.draw_grid(canvas, c.BLACK, size)   # Draws the sudoku grid
+        board.draw_board(canvas, size)           # Renders the numbers in the sudoku
 
         if wrong:
             rect_wrong = pg.Rect(wrong[1]*side, wrong[0]*side, side, side)
             board.highlight_box(canvas, c.T_RED, rect_wrong)  # Highlights the wrong number in red
         else:
             if selected:
-                board.highlight_outline(y, x, canvas, 666)  # Highlights the edge of the selected box
+                board.highlight_outline(y, x, canvas, size)  # Highlights the edge of the selected box
 
             if board.is_over():
                 final_text = font.render("ALL DONE!", True, c.BLACK)
                 final_square = final_text.get_rect(center=(size//2, size//2))
-                pg.draw.rect(canvas, c.GRAY, pg.Rect.inflate(final_square, 100, 100))
+                pg.draw.rect(canvas, c.GRAY, pg.Rect.inflate(final_square, size//6, size//6))
                 canvas.blit(final_text, final_square)
 
 

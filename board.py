@@ -123,7 +123,7 @@ class Board():
         Renders the numbers in the board
         """
         
-        font = pg.font.Font(None, 56)
+        font = pg.font.Font(None, size//12)
         side = size // 9
         for i in range(9):
             for j in range(9):
