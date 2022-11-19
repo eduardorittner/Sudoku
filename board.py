@@ -17,7 +17,7 @@ class Board():
 
         with zp.ZipFile("data.zip") as z:
             with z.open("data/puzzles0_kaggle") as f:
-                num = randint(0, 100002)        # Chooses a specific line to read from
+                num = randint(0, 100001)        # Chooses a specific line to read from
                 for i, line in enumerate(f):
                     if i == num:
                         puzzle = line       
