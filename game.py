@@ -41,10 +41,12 @@ if __name__ == "__main__":
                         if not board.check_board(x, y, num):
                             wrong = (x, y)
                         else:
-                            wrong = 0                    
+                            wrong = 0      
+
                         board.add_num(x, y, num)
                     elif event.key == pg.K_BACKSPACE:
                         board.remove_num(x, y)
+                        wrong = 0
 
         board.draw_grid(canvas, c.BLACK, 666)   # Draws the sudoku grid
         board.draw_board(canvas, 666)           # Renders the numbers in the sudoku
