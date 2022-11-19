@@ -12,3 +12,6 @@ Sudoku game made in python with Pygame
 - Highlights the square you have selected
 - Highlights the last error in red
 - Doesn't let you change the initial numbers (that were not set by the user)
+
+## Thanks to
+- Puzzle database taken from https://github.com/t-dillon/tdoku/blob/master/data.zip
