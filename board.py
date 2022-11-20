@@ -3,8 +3,12 @@ import constants as c
 from random import randint
 import zipfile as zp
 
-class Board():
 
+DATA_FILE = "data.zip"
+KAGGLE_PATH = "data/puzzles0_kaggle"
+
+
+class Board:
     def __init__(self):
         """
         Initializes the board
@@ -12,24 +16,32 @@ class Board():
         Fetches a random configuration from the file "puzzles0_kaggle" from data.zip
         Currently only one difficulty
         """
-        self.board = [[0 for i in range(9)] for j in range(9)]  # Matrix that stores the numbers of the sudoku grid
-        self.flag = [[0 for i in range(9)] for j in range(9)]   # Matrix that stores the flag that indicates whether a number is constant (1) or mutable (0)
+        self.board = [
+            [0 for i in range(9)] for j in range(9)
+        ]  # Matrix that stores the numbers of the sudoku grid
+        self.flag = [
+            [0 for i in range(9)] for j in range(9)
+        ]  # Matrix that stores the flag that indicates whether a number is constant (1) or mutable (0)
 
-        with zp.ZipFile("data.zip") as z:
-            with z.open("data/puzzles0_kaggle") as f:
-                num = randint(0, 100001)        # Chooses a specific line to read from
+        
+        with zp.ZipFile(DATA_FILE) as z:
+            with z.open(KAGGLE_PATH) as f:
+                num = randint(0, 100001)  # Chooses a specific line to read from
                 for i, line in enumerate(f):
                     if i == num:
-                        puzzle = line       
+                        puzzle = line
 
         puzzle = puzzle[0:-1]
-        
+
         for i in range(9):
             for j in range(9):
-                if puzzle[i*9 + j] != 46:       # The file is in ASCII format, so 46 is a "." and represents an empty square
-                    self.board[i][j] = puzzle[i*9 + j] - 48    # Retrieves the number from its ASCII 
-                    self.flag[i][j] = 1 
-
+                if (
+                    puzzle[i * 9 + j] != 46
+                ):  # The file is in ASCII format, so 46 is a "." and represents an empty square
+                    self.board[i][j] = (
+                        puzzle[i * 9 + j] - 48
+                    )  # Retrieves the number from its ASCII
+                    self.flag[i][j] = 1
 
     def check_board(self, x: int, y: int, num: int) -> bool:
         """
@@ -43,17 +55,19 @@ class Board():
         """
 
         for i in range(9):
-            if self.board[y][i] == num: # Checks the column
-                return False 
-
-            if self.board[i][x] == num: # Checks the line
+            if self.board[y][i] == num:  # Checks the column
                 return False
-            
+
+            if self.board[i][x] == num:  # Checks the line
+                return False
+
         x_sqr = x // 3
         y_sqr = y // 3
         for i in range(3):
             for j in range(3):
-                if self.board[i + y_sqr*3][j + x_sqr*3] == num: # Checks the 3x3 square
+                if (
+                    self.board[i + y_sqr * 3][j + x_sqr * 3] == num
+                ):  # Checks the 3x3 square
                     return False
 
         return True
@@ -96,7 +110,6 @@ class Board():
             for j in range(9):
                 if self.board[i][j] == 0:
                     return (i, j)
-                
 
     def solve(self):
         """
@@ -105,9 +118,9 @@ class Board():
 
         zero = self.find_zero()
 
-        if not zero:            # If there is no zero, the sudoku is solved
+        if not zero:  # If there is no zero, the sudoku is solved
             return True
-        
+
         for i in range(1, 10):
             if self.check_board(zero[1], zero[0], i):
                 self.board[zero[0]][zero[1]] = i
@@ -117,13 +130,12 @@ class Board():
 
         return False
 
-
     def draw_board(self, canvas: pg.Surface, size: int) -> None:
         """
         Renders the numbers in the board
         """
-        
-        font = pg.font.Font(None, size//12)
+
+        font = pg.font.Font(None, size // 12)
         side = size // 9
         for i in range(9):
             for j in range(9):
@@ -131,12 +143,13 @@ class Board():
                     if self.flag[i][j]:
                         text = font.render(str(self.board[i][j]), True, c.BLACK)
                     else:
-                        text = font.render(str(self.board[i][j]), True, c.BLUE)          
+                        text = font.render(str(self.board[i][j]), True, c.BLUE)
 
-                    text_square = text.get_rect(center=(i*side + side//2, j*side + side//2))
+                    text_square = text.get_rect(
+                        center=(i * side + side // 2, j * side + side // 2)
+                    )
                     canvas.blit(text, text_square)
 
-    
     def is_zero(self, x: int, y: int) -> bool:
         """
         Checks if a given square is empty
@@ -164,8 +177,8 @@ class Board():
             width = 1
             if i % 3 == 0:
                 width = 3
-            pg.draw.line(canvas, color, [0, side*i], [size, side*i], width)
-            pg.draw.line(canvas, color, [side*i, 0], [side*i, size], width)
+            pg.draw.line(canvas, color, [0, side * i], [size, side * i], width)
+            pg.draw.line(canvas, color, [side * i, 0], [side * i, size], width)
 
     def highlight_outline(self, x: int, y: int, canvas, size: int) -> None:
         """
@@ -181,7 +194,6 @@ class Board():
         pg.draw.line(canvas, c.RED, [x, y], [x + side, y], 3)
         pg.draw.line(canvas, c.RED, [x + side, y], [x + side, y + side], 3)
         pg.draw.line(canvas, c.RED, [x, y + side], [x + side, y + side], 3)
-    
 
     def highlight_box(self, surface: pg.Surface, color: list, rect: pg.Rect) -> None:
         """
@@ -199,14 +211,13 @@ class Board():
             lines.append(list(set_nums))
             columns.append(list(set_nums))
             squares.append(list(set_nums))
-        
-        sudoku = [[0 for i in range(9)] for j in range(9)] # Matrix of the sudoku board
+
+        sudoku = [[0 for i in range(9)] for j in range(9)]  # Matrix of the sudoku board
 
         for i in range(9):
             for j in range(9):
-                temp = 2*(i // 3) + j // 3
+                temp = 2 * (i // 3) + j // 3
                 possible = [i for i in lines[i] and columns[j] and squares[temp]]
                 sudoku[i][j] = possible[randint(0, len(possible))]
 
         print(sudoku)
-
