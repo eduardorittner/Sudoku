@@ -1,3 +1,0 @@
-# The project was developed on Python 3.7.9 with pygame 2.1.2
-
-pygame
