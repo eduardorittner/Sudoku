@@ -9,8 +9,10 @@ if __name__ == "__main__":
     pg.init()
 
     board_obj = board.Board()  # Creates board object
-    size = 666
-    canvas = pg.display.set_mode((size, size))
+    size = 666  # Size must be a multiple of 9
+    if size % 9 != 0:
+        size = (size // 9) * 9
+    canvas = pg.display.set_mode((size, size + size // 9))
     side = size // 9
     pg.display.set_caption("DUDU'S SUDOKU")  # Window name
     font = pg.font.Font(None, side)  # Standard pygame font

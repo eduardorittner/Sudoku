@@ -23,7 +23,6 @@ class Board:
             [0 for i in range(9)] for j in range(9)
         ]  # Matrix that stores the flag that indicates whether a number is constant (1) or mutable (0)
 
-        
         with zp.ZipFile(DATA_FILE) as z:
             with z.open(KAGGLE_PATH) as f:
                 num = randint(0, 100001)  # Chooses a specific line to read from
@@ -179,6 +178,7 @@ class Board:
                 width = 3
             pg.draw.line(canvas, color, [0, side * i], [size, side * i], width)
             pg.draw.line(canvas, color, [side * i, 0], [side * i, size], width)
+        pg.draw.line(canvas, color, [0, size], [size, size], 3)
 
     def highlight_outline(self, x: int, y: int, canvas, size: int) -> None:
         """
