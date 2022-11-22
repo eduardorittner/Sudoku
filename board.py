@@ -2,45 +2,21 @@ import pygame as pg
 import constants as c
 from random import randint
 import zipfile as zp
-
+from abc import ABC
 
 DATA_FILE = "data.zip"
 KAGGLE_PATH = "data/puzzles0_kaggle"
 
 
-class Board:
-    def __init__(self):
+class Board():
+    def __init__(self, board, flag):
         """
         Initializes the board
 
         Fetches a random configuration from the file "puzzles0_kaggle" from data.zip
         Currently only one difficulty
         """
-        self.board = [
-            [0 for i in range(9)] for j in range(9)
-        ]  # Matrix that stores the numbers of the sudoku grid
-        self.flag = [
-            [0 for i in range(9)] for j in range(9)
-        ]  # Matrix that stores the flag that indicates whether a number is constant (1) or mutable (0)
-
-        with zp.ZipFile(DATA_FILE) as z:
-            with z.open(KAGGLE_PATH) as f:
-                num = randint(0, 100001)  # Chooses a specific line to read from
-                for i, line in enumerate(f):
-                    if i == num:
-                        puzzle = line
-
-        puzzle = puzzle[0:-1]
-
-        for i in range(9):
-            for j in range(9):
-                if (
-                    puzzle[i * 9 + j] != 46
-                ):  # The file is in ASCII format, so 46 is a "." and represents an empty square
-                    self.board[i][j] = (
-                        puzzle[i * 9 + j] - 48
-                    )  # Retrieves the number from its ASCII
-                    self.flag[i][j] = 1
+        self.board, self.flag = board, flag
 
     def check_board(self, x: int, y: int, num: int) -> bool:
         """
@@ -221,3 +197,42 @@ class Board:
                 sudoku[i][j] = possible[randint(0, len(possible))]
 
         print(sudoku)
+
+class Board_Factory(ABC):
+
+    def __init__(self):
+        """Initializes a new empty board"""
+        self.board = [
+            [0 for i in range(9)] for j in range(9)
+        ]  # Matrix that stores the numbers of the sudoku grid
+        self.flag = [
+            [0 for i in range(9)] for j in range(9)
+        ]  # Matrix that stores the flag that indicates whether a number is constant (1) or mutable (0)
+
+    def generate_board(self) -> list:
+        """Generates a new sudoku puzzle"""
+
+
+class Kaggle_easy(Board_Factory):
+
+    def generate_board(self):
+        with zp.ZipFile(DATA_FILE) as z:
+            with z.open(KAGGLE_PATH) as f:
+                num = randint(0, 100001)  # Chooses a specific line to read from
+                for i, line in enumerate(f):
+                    if i == num:
+                        puzzle = line
+
+        puzzle = puzzle[0:-1]
+
+        for i in range(9):
+            for j in range(9):
+                if (
+                    puzzle[i * 9 + j] != 46
+                ):  # The file is in ASCII format, so 46 is a "." and represents an empty square
+                    self.board[i][j] = (
+                        puzzle[i * 9 + j] - 48
+                    )  # Retrieves the number from its ASCII
+                    self.flag[i][j] = 1   
+
+        return Board(self.board, self.flag)     

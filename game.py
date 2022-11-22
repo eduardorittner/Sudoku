@@ -7,8 +7,8 @@ import board
 if __name__ == "__main__":
 
     pg.init()
-
-    board_obj = board.Board()  # Creates board object
+    factory = board.Kaggle_easy()
+    board_obj = factory.generate_board()  # Creates board object
     size = 666  # Size must be a multiple of 9
     if size % 9 != 0:
         size = (size // 9) * 9
