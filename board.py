@@ -76,35 +76,6 @@ class Board():
 
         return True
 
-    def find_zero(self):
-        """
-        Finds the next zero in the board and returns its position as a tuple
-        """
-
-        for i in range(9):
-            for j in range(9):
-                if self.board[i][j] == 0:
-                    return (i, j)
-
-    def solve(self):
-        """
-        Solves the sudoku recursively
-        """
-
-        zero = self.find_zero()
-
-        if not zero:  # If there is no zero, the sudoku is solved
-            return True
-
-        for i in range(1, 10):
-            if self.check_board(zero[1], zero[0], i):
-                self.board[zero[0]][zero[1]] = i
-                if self.solve():
-                    return True
-                self.board[zero[0]][zero[1]] = 0
-
-        return False
-
     def draw_board(self, canvas: pg.Surface, size: int) -> None:
         """
         Renders the numbers in the board
@@ -180,23 +151,9 @@ class Board():
         pg.draw.rect(shape_surf, color, shape_surf.get_rect())
         surface.blit(shape_surf, rect)
 
-    def generate_sudoku(self):
-        set_nums = set(i for i in range(1, 10))
-        lines, columns, squares = [], [], []
-        for i in range(9):
-            lines.append(list(set_nums))
-            columns.append(list(set_nums))
-            squares.append(list(set_nums))
 
-        sudoku = [[0 for i in range(9)] for j in range(9)]  # Matrix of the sudoku board
-
-        for i in range(9):
-            for j in range(9):
-                temp = 2 * (i // 3) + j // 3
-                possible = [i for i in lines[i] and columns[j] and squares[temp]]
-                sudoku[i][j] = possible[randint(0, len(possible))]
-
-        print(sudoku)
+    def update_board(self, board) -> None:
+        self.board = board
 
 class Board_Factory(ABC):
 
